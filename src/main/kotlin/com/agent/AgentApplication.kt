@@ -1,5 +1,6 @@
 package com.agent
 
+import com.agent.cli.AgentCli
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,5 +8,6 @@ import org.springframework.boot.runApplication
 class AgentApplication
 
 fun main(args: Array<String>) {
-	runApplication<AgentApplication>(*args)
+    val context = runApplication<AgentApplication>(*args)
+    context.getBean(AgentCli::class.java).start()
 }

@@ -1,3 +1,12 @@
 spring:
   application:
     name: agent
+
+langchain4j:
+  open-ai:
+    chat-model:
+      api-key: ${OPENROUTER_API_KEY}
+      model-name: openrouter/free
+      base-url: https://openrouter.ai/api/v1
+      log-requests: true
+      log-responses: true
