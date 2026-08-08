@@ -29,3 +29,5 @@ target
 
 #env files
 *.env
+src/main/resources/credentials
+tokens
