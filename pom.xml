@@ -83,6 +83,12 @@
             <artifactId>google-api-services-calendar</artifactId>
             <version>v3-rev20260702-2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.oshai</groupId>
+            <artifactId>kotlin-logging-jvm</artifactId>
+            <version>8.0.4</version>
+            <scope>runtime</scope>
+        </dependency>
 	</dependencies>
 
 	<build>

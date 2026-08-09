@@ -1,6 +1,7 @@
 package com.agent.agent.tools
 
 import com.agent.calendar.services.CalendarService
+import com.agent.core.utils.logger
 import dev.langchain4j.agent.tool.P
 import dev.langchain4j.agent.tool.Tool
 import org.springframework.stereotype.Component
@@ -8,7 +9,7 @@ import java.time.LocalDateTime
 
 @Component
 class CalendarTool(private val calendarService: CalendarService) {
-
+    private val logger = logger()
 
     @Tool("Create an event in the user's Google Calendar, " +
             "Be the more autonomous possible don't ask for much clarifications," +
@@ -27,6 +28,7 @@ class CalendarTool(private val calendarService: CalendarService) {
 
         @P("Location of the event") location: String?
     ): String {
+        logger.info("Using createEvent tool")
 
         val event = calendarService.createEvent(
             title = title,
@@ -54,6 +56,7 @@ class CalendarTool(private val calendarService: CalendarService) {
         @P("End date and time in ISO-8601 format, e.g. 2026-08-10T15:00:00")
         end: String
     ): String {
+        logger.info("Using getAllEventInTime tool")
         val events = calendarService.getAllEventsInTime(
             start = LocalDateTime.parse(start),
             end = LocalDateTime.parse(end)

@@ -1,0 +1,5 @@
+langchain4j:
+  open-ai:
+    chat-model:
+      log-requests: true
+      log-responses: true

@@ -1,13 +1,15 @@
 package com.agent.cli
 
 import com.agent.agent.GeneralAgent
+import com.agent.cli.utils.Spinner
 import org.jline.reader.LineReaderBuilder
 import org.jline.terminal.TerminalBuilder
 import org.springframework.stereotype.Component
 
 @Component
 class AgentCli(
- private val generalAgent: GeneralAgent
+    private val generalAgent: GeneralAgent,
+    private val waiting : Spinner
 ) {
 
     fun start() {
@@ -56,11 +58,24 @@ class AgentCli(
 
 
                 else -> {
-                    val response = generalAgent.chat(
-                        input
-                    )
 
-                    println("\nia > $response\n")
+                    val spinner = waiting.startSpinner()
+
+                    try {
+
+                        val response = generalAgent.chat(input)
+
+                        spinner.interrupt()
+                        spinner.join()
+
+                        print("\r${" ".repeat(30)}\r")
+
+                        println("ia > $response\n")
+
+                    } catch (e: Exception) {
+
+                        Spinner.stop(spinner)
+                    }
                 }
             }
         }

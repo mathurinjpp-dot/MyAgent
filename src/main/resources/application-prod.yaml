@@ -1,0 +1,8 @@
+spring :
+  main:
+    log-startup-info: false
+
+logging:
+  level:
+    root: OFF
+    org.jline: INFO
