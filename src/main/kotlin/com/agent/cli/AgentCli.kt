@@ -2,6 +2,8 @@ package com.agent.cli
 
 import com.agent.MyAgent
 import com.agent.cli.utils.Spinner
+import com.agent.core.utils.logger
+import com.agent.services.mail.MailService
 import dev.langchain4j.invocation.InvocationParameters
 import org.jline.reader.LineReaderBuilder
 import org.jline.terminal.TerminalBuilder
@@ -10,10 +12,23 @@ import org.springframework.stereotype.Component
 @Component
 class AgentCli(
     private val myAgent : MyAgent,
-    private val waiting : Spinner
+    private val waiting : Spinner,
+    private val mailService : MailService
 ) {
-    val parameters = InvocationParameters()
+        private val logger = logger()
     fun start() {
+        val mails = mailService.listEmails(10)
+        logger.info(mails.toString())
+
+        mailService.sendEmail(
+            to = "matht850@gmail.com",
+            subject = "Test depuis l'agent",
+            body = "Ceci est un email de test envoyé par l'agent CLI."
+        )
+
+        if (mails.isNotEmpty()) {
+            mailService.deleteEmail(mails.first().id)
+        }
 
         val terminal = TerminalBuilder.builder()
             .system(true)

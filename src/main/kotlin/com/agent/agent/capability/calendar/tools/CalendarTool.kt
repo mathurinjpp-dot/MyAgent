@@ -1,7 +1,7 @@
 package com.agent.agent.capability.calendar.tools
 
 import com.agent.agent.capability.MyTool
-import com.agent.calendar.services.CalendarService
+import com.agent.services.calendar.CalendarService
 import com.agent.core.utils.logger
 import com.google.api.client.util.DateTime
 import com.google.api.services.calendar.model.Event

@@ -1,4 +1,4 @@
-package com.agent.calendar.services
+package com.agent.services.calendar
 
 import com.google.api.services.calendar.model.Event
 import java.time.LocalDateTime

@@ -1,6 +1,6 @@
-package com.agent.calendar.services.impl
+package com.agent.services.calendar.impl
 
-import com.agent.calendar.services.CalendarService
+import com.agent.services.calendar.CalendarService
 import com.google.api.client.util.DateTime
 import com.google.api.services.calendar.Calendar
 import com.google.api.services.calendar.model.Event
@@ -45,14 +45,14 @@ class GoogleCalendarService(private val calendar: Calendar) : CalendarService {
     override fun getAllEventsInTime(start: LocalDateTime, end: LocalDateTime): List<Event> {
         val timeMin = toGoogleDateTime(start)
         val timeMax = toGoogleDateTime(end)
-        
+
         val events = calendar.events()
             .list(calendarId)
             .setTimeMin(timeMin)
             .setTimeMax(timeMax)
             .setTimeZone(zone.id)
             .execute()
-            
+
         return events.items ?: emptyList()
     }
 
@@ -93,9 +93,9 @@ class GoogleCalendarService(private val calendar: Calendar) : CalendarService {
             .setLocation(originalEvent.location)
             .setStart(originalEvent.start)
             .setEnd(originalEvent.end)
-        
+
         recurrentEvent.recurrence = listOf(recurrencePattern)
-        
+
         return calendar.events()
             .insert(calendarId, recurrentEvent)
             .execute()
@@ -140,4 +140,3 @@ class GoogleCalendarService(private val calendar: Calendar) : CalendarService {
         )
     }
 }
-
