@@ -2,6 +2,10 @@ spring:
   application:
     name: agent
 
+agent:
+  capability:
+    ttl: 3
+
 
 
 langchain4j:

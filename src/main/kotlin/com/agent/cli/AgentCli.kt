@@ -1,17 +1,18 @@
 package com.agent.cli
 
-import com.agent.agent.GeneralAgent
+import com.agent.MyAgent
 import com.agent.cli.utils.Spinner
+import dev.langchain4j.invocation.InvocationParameters
 import org.jline.reader.LineReaderBuilder
 import org.jline.terminal.TerminalBuilder
 import org.springframework.stereotype.Component
 
 @Component
 class AgentCli(
-    private val generalAgent: GeneralAgent,
+    private val myAgent : MyAgent,
     private val waiting : Spinner
 ) {
-
+    val parameters = InvocationParameters()
     fun start() {
 
         val terminal = TerminalBuilder.builder()
@@ -63,7 +64,7 @@ class AgentCli(
 
                     try {
 
-                        val response = generalAgent.chat("mathurin",input)
+                        val response = myAgent.chat("mathurin",input)
 
                         spinner.interrupt()
                         spinner.join()
