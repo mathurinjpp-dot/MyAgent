@@ -63,7 +63,7 @@ class AgentCli(
 
                     try {
 
-                        val response = generalAgent.chat(input)
+                        val response = generalAgent.chat("mathurin",input)
 
                         spinner.interrupt()
                         spinner.join()
