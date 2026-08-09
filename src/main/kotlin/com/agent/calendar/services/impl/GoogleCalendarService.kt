@@ -10,7 +10,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
-class GoogleCalendarService(private val calendar : Calendar) : CalendarService {
+class GoogleCalendarService(private val calendar: Calendar) : CalendarService {
 
     private val calendarId = "primary"
 
@@ -40,6 +40,20 @@ class GoogleCalendarService(private val calendar : Calendar) : CalendarService {
         return calendar.events()
             .insert(calendarId, event)
             .execute()
+    }
+
+    override fun getAllEventsInTime(start: LocalDateTime, end: LocalDateTime): List<Event> {
+        val timeMin = toGoogleDateTime(start)
+        val timeMax = toGoogleDateTime(end)
+        
+        val events = calendar.events()
+            .list(calendarId)
+            .setTimeMin(timeMin)
+            .setTimeMax(timeMax)
+            .setTimeZone(zone.id)
+            .execute()
+            
+        return events.items ?: emptyList()
     }
 
     private fun toGoogleDateTime(
