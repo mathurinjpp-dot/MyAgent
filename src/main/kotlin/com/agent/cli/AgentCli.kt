@@ -13,22 +13,8 @@ import org.springframework.stereotype.Component
 class AgentCli(
     private val myAgent : MyAgent,
     private val waiting : Spinner,
-    private val mailService : MailService
 ) {
-        private val logger = logger()
     fun start() {
-        val mails = mailService.listEmails(10)
-        logger.info(mails.toString())
-
-        mailService.sendEmail(
-            to = "matht850@gmail.com",
-            subject = "Test depuis l'agent",
-            body = "Ceci est un email de test envoyé par l'agent CLI."
-        )
-
-        if (mails.isNotEmpty()) {
-            mailService.deleteEmail(mails.first().id)
-        }
 
         val terminal = TerminalBuilder.builder()
             .system(true)
