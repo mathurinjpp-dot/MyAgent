@@ -3,6 +3,7 @@
 
 #vosk models
 vosk-test
+vosk-test-powerfull
 
 # Log file
 *.log
