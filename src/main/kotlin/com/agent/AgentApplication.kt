@@ -9,5 +9,5 @@ class AgentApplication
 
 fun main(args: Array<String>) {
     val context = runApplication<AgentApplication>(*args)
-    context.getBean(AgentCli::class.java).start()
+    context.getBean(AgentCli::class.java).startWithMic()
 }

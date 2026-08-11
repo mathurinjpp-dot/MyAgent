@@ -77,6 +77,11 @@
             <artifactId>google-oauth-client-jetty</artifactId>
             <version>1.39.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.alphacephei</groupId>
+            <artifactId>vosk</artifactId>
+            <version>0.3.45</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.apis</groupId>

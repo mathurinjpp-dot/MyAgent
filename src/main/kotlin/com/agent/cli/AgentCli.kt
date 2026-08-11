@@ -3,17 +3,44 @@ package com.agent.cli
 import com.agent.MyAgent
 import com.agent.cli.utils.Spinner
 import com.agent.core.utils.logger
-import com.agent.services.mail.MailService
-import dev.langchain4j.invocation.InvocationParameters
 import org.jline.reader.LineReaderBuilder
 import org.jline.terminal.TerminalBuilder
 import org.springframework.stereotype.Component
+import org.vosk.Model
+import org.vosk.Recognizer
+import javax.sound.sampled.AudioFormat
+import javax.sound.sampled.AudioSystem
+
 
 @Component
 class AgentCli(
     private val myAgent : MyAgent,
     private val waiting : Spinner,
 ) {
+    private val logger = logger()
+    fun startWithMic(){
+        val model: Model = Model("vosk-test")
+        val recognizer = Recognizer(model, 16000f)
+
+        val format = AudioFormat(16000f, 16, 1, true, false)
+        val mic = AudioSystem.getTargetDataLine(format)
+
+        mic.open(format)
+        mic.start()
+
+        val buffer = ByteArray(4096)
+
+        while (true) {
+            val n = mic.read(buffer, 0, buffer.size)
+
+            if (recognizer.acceptWaveForm(buffer, n)) {
+                logger.info(recognizer.result)
+            } else {
+                logger.info(recognizer.partialResult)
+            }
+        }
+    }
+
     fun start() {
 
         val terminal = TerminalBuilder.builder()
