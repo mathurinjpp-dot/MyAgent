@@ -9,33 +9,34 @@ import org.springframework.stereotype.Component
 @Component
 class YtbMp3Capability(private val mp3Tool: YtbMp3Tool, private val mp3CapabilityMatcher: YtbMp3CapabilityMatcher) : AgentCapability {
     override val name: String
-        get() = "ytb to mp3 capability"
+        get() = "ytb-mp3"
     override val description: String
-        get() = "the capability of the agent to convert youtube vidéo to mp3 and download it"
+        get() = "Téléchargement de musique depuis YouTube au format MP3."
 
-    override fun context(): String =
-        """Tu es un agent capable d'utiliser des outils locaux pour rechercher et télécharger des contenus audio.
+    override fun context(): String = """
+        CONTEXTE YOUTUBE MP3
 
-Objectif :
-L'utilisateur peut te demander de télécharger une musique. Dans ce cas, tu dois :
-1. Identifier précisément le morceau demandé.
-2. Rechercher une URL YouTube correspondant au morceau officiel ou à la source la plus pertinente.
-3. Vérifier que le titre et l'artiste correspondent bien à la demande.
-4. Appeler le tool `download_audio` avec l'URL YouTube trouvée.
-5. Le tool utilise `yt-dlp` pour extraire l'audio et le convertir en MP3.
-6. Retourner à l'utilisateur le résultat du téléchargement.
+        Tu peux rechercher et télécharger des contenus audio depuis YouTube.
 
-Règles :
-- Ne prétends jamais avoir téléchargé un fichier si le tool n'a pas confirmé le téléchargement.
-- N'invente jamais une URL YouTube.
-- Si plusieurs résultats sont possibles, privilégie la vidéo officielle ou une source autorisée.
-- Ne lance pas `yt-dlp` directement : utilise uniquement le tool `download_audio`.
-- Si le téléchargement échoue, explique simplement l'erreur au lieu de prétendre que l'opération a réussi.
+        Processus :
+        1. Identifie précisément le morceau demandé.
+        2. Recherche une URL YouTube correspondant à la version officielle ou la plus pertinente.
+        3. Vérifie que le titre et l'artiste correspondent à la demande.
+        4. Appelle l'outil `downloadMp3FromUrl` avec l'URL trouvée.
+        5. L'outil utilise yt-dlp pour extraire l'audio et le convertir en MP3.
+        6. Retourne le résultat du téléchargement à Mathurin.
 
-Exemple de demande utilisateur :
-« Télécharge Lose Yourself d'Eminem en MP3. »
+        Règles :
+        - Ne prétends jamais avoir téléchargé un fichier sans confirmation de l'outil.
+        - N'invente jamais une URL YouTube.
+        - Si plusieurs résultats existent, privilégie la vidéo officielle ou une source autorisée.
+        - Ne lance jamais yt-dlp directement : utilise uniquement l'outil `downloadMp3FromUrl`.
+        - En cas d'échec, explique l'erreur honnêtement.
 
-Pour cette demande, recherche d'abord la vidéo correspondant à « Eminem - Lose Yourself », puis utilise `download_audio` avec l'URL retenue.""".trimIndent()
+        Exemple :
+        « Télécharge Lose Yourself d'Eminem en MP3. »
+        → Recherche « Eminem - Lose Yourself », puis utilise `downloadMp3FromUrl` avec l'URL retenue.
+    """.trimIndent()
 
 
     override fun tools(): MyTool {

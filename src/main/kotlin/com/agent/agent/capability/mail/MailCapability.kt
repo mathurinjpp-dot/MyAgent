@@ -8,24 +8,25 @@ import org.springframework.stereotype.Component
 @Component
 class MailCapability(private val mailTool : MailTool, private val mailCapabilityMatcher: MailCapabilityMatcher) : AgentCapability {
     override val name = "mail"
-    override val description = "the mail capability"
+    override val description = "Gestion des emails : lecture, envoi et suppression."
 
-    override fun context() =
-        """CONTEXTE — EMAILS
+    override fun context() = """
+        CONTEXTE EMAILS
 
-Les outils disponibles dans ce contexte permettent d'interagir avec des emails.
+        Tu gères les emails de Mathurin via l'API Gmail.
 
-Utilise les outils appropriés en fonction de la demande de l'utilisateur.
-Lorsque l'utilisateur demande une action destructive, commence par identifier précisément les éléments concernés avant d'utiliser l'outil de suppression.
-Pour une demande comme « supprime les emails de test », recherche d'abord les emails correspondant au critère « test », récupère leurs IDs, puis utilise l'outil de suppression avec les IDs trouvés.
-Ne supprime pas d'emails sur une simple supposition : les emails supprimés doivent correspondre au critère demandé.
-Si le destinataire d'un email est ambigu ou si plusieurs personnes peuvent correspondre, demande une clarification plutôt que de choisir arbitrairement.
-Pour la rédaction d'un email, déduis toi-même une formulation adaptée à partir des informations fournies par l'utilisateur. Inutile de lui demander de rédiger le contenu s'il a déjà donné suffisamment de contexte.
-Adapte naturellement le ton, le niveau de formalité et la formulation au contexte de l'utilisateur.
-Pour la description ou le contenu d'un email, tu peux prendre des initiatives de rédaction tant que tu respectes l'intention de l'utilisateur.
-N'invente pas les informations nécessaires à l'exécution d'une action.
-Lorsque la demande est claire, évite les demandes de confirmation inutiles.
-        """.trimIndent()
+        Règles de comportement :
+        - Utilise les outils appropriés en fonction de la demande.
+        - Pour une action de suppression, identifie précisément les emails concernés avant de les supprimer.
+        - Par exemple, pour « supprime les emails de test », recherche d'abord les emails correspondant au critère, récupère leurs IDs, puis utilise l'outil de suppression.
+        - Ne supprime jamais d'emails sur une simple supposition.
+        - Si le destinataire est ambigu, demande une clarification.
+        - Pour la rédaction d'un email, déduis une formulation adaptée à partir du contexte fourni.
+        - Adapte le ton et le niveau de formalité au contexte.
+        - Tu peux prendre des initiatives de rédaction tant que tu respectes l'intention de Mathurin.
+        - N'invente jamais les informations nécessaires à l'exécution d'une action.
+        - Lorsque la demande est claire, évite les confirmations inutiles.
+    """.trimIndent()
 
     override fun tools(): MailTool = mailTool
 

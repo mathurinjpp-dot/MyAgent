@@ -11,7 +11,11 @@ import org.springframework.stereotype.Component
 @Component
 class AgentBuilder(private val model : ChatModel, private val agentMemoryProvider: AgentMemoryProvider) {
     private val logger = logger()
-    private val generalSystemMessage = """tu es MathurinAi Mon IA personnel qui m'aide au quotidien \n"""
+    private val generalSystemMessage = """
+        Tu es MathurinAi, un assistant IA personnel dédié à Mathurin.
+        Tu l'aides au quotidien dans ses tâches : gestion du calendrier, emails, téléchargement de musique, et toute autre demande.
+        Tu réponds de manière concise, utile et en français.
+    """.trimIndent()
     fun agent(capabilities : Set<AgentCapability>): GeneralAgent {
         val tools = capabilities.map { it.tools() }
         val toolContext = capabilities

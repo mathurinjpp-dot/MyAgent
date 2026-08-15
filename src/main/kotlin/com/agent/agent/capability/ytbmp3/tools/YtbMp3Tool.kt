@@ -15,15 +15,16 @@ class YtbMp3Tool : MyTool {
 
     @Tool(
         """
-    Download the audio from the provided YouTube URL as an MP3 file.
-    The MP3 file is saved to /home/mathurin/Musique.
+    Télécharger l'audio d'une URL YouTube fournie au format MP3.
+    Le fichier MP3 est sauvegardé dans /home/music/Musique.
     """
     )
     fun downloadMp3FromUrl(
-        @P("The YouTube URL to download") url: String,@P("the name of the musique choose it the clearer possible") name: String
+        @P("L'URL YouTube à télécharger") url: String,
+        @P("Nom du fichier musical (le plus clair possible)") name: String
     ): String {
         if (!isValidYoutubeUrl(url)) {
-            return "The provided YouTube URL is not accessible."
+            return "L'URL YouTube fournie n'est pas accessible."
         }
         return try {
             val process = ProcessBuilder(
@@ -41,12 +42,12 @@ class YtbMp3Tool : MyTool {
             val exitCode = process.waitFor()
 
             if (exitCode == 0) {
-                "MP3 successfully downloaded to /home/mathurin/Musique."
+                "MP3 téléchargé avec succès dans /home/music/Musique."
             } else {
-                "Failed to download the YouTube audio: $output"
+                "Échec du téléchargement de l'audio YouTube : $output"
             }
         } catch (e: Exception) {
-            "An error occurred while downloading the audio: ${e.message}"
+            "Une erreur est survenue lors du téléchargement de l'audio : ${e.message}"
         }
 
     }

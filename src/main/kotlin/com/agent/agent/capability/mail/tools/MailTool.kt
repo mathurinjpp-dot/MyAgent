@@ -12,27 +12,27 @@ import org.springframework.stereotype.Component
 class MailTool(private val mailService : MailService) : MyTool{
     private val logger = logger()
 
-    @Tool("List emails from the mailbox")
+    @Tool("Lister les emails de la boîte mail")
     fun getEmails(
-        @P("limit number of messages") limit : Int,
+        @P("Nombre maximum de messages à récupérer") limit : Int,
     ) : List<Mail> {
         logger.info("using getEmails tool")
         return mailService.listEmails(limit)
     }
 
-    @Tool("Send an email")
+    @Tool("Envoyer un email")
     fun sendEmail(
-        @P("recipient email address") to : String,
-        @P("email subject") subject : String,
-        @P("email body content") body : String,
+        @P("Adresse email du destinataire") to : String,
+        @P("Objet de l'email") subject : String,
+        @P("Contenu du corps de l'email") body : String,
     ) {
         logger.info("using sendEmail tool")
         mailService.sendEmail(to, subject, body)
     }
 
-    @Tool("Delete an email by its message ID")
+    @Tool("Supprimer un email par son ID de message")
     fun deleteEmail(
-        @P("the message ID to delete") messageId : String,
+        @P("ID du message à supprimer") messageId : String,
     ) {
         logger.info("using deleteEmail tool")
         mailService.deleteEmail(messageId)

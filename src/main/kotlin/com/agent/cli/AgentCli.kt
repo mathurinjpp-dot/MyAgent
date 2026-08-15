@@ -69,7 +69,7 @@ class AgentCli(
         println(
             """
             ╭────────────────────────────╮
-            │ 🤖 Agent Console            │
+            │ 🤖 MathurinAi               │
             │                             │
             │ /help pour les commandes    │
             ╰────────────────────────────╯
@@ -80,7 +80,7 @@ class AgentCli(
         while (true) {
             val input = reader.readLine("toi > ")
             when {
-                input == "/exit" -> { println("Bye"); break }
+                input == "/exit" -> { println("À bientôt !"); break }
                 input == "/help" -> println("Commandes : /exit, /help, /micro")
                 input == "/micro" -> startCliMic()
                 input.isNullOrBlank() -> continue
@@ -135,7 +135,7 @@ class AgentCli(
     private fun buildUI() {
         println("[AgentCli] Building Swing UI...")
 
-        frame = JFrame("Agent Console")
+        frame = JFrame("MathurinAi")
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.size = Dimension(700, 500)
         frame.setLocationRelativeTo(null)

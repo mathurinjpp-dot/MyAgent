@@ -18,16 +18,16 @@ class CalendarTool(private val calendarService: CalendarService) : MyTool {
     private val zone = "Europe/Paris"
     private val zoneId = ZoneId.of(zone)
 
-        @Tool("Create a recurrent event in the user's Google Calendar.")
+        @Tool("Créer un événement récurrent dans le calendrier Google de l'utilisateur.")
     fun createRecurrentEvent(
-        @P("Event title") title: String,
-        @P("Detailed description of the event") description: String?,
-        @P("Start date and time in ISO-8601 format, e.g. 2026-08-10T14:00:00")
+        @P("Titre de l'événement") title: String,
+        @P("Description détaillée de l'événement") description: String?,
+        @P("Date et heure de début au format ISO-8601, ex. 2026-08-10T14:00:00")
         start: String,
-        @P("End date and time in ISO-8601 format, e.g. 2026-08-10T15:00:00")
+        @P("Date et heure de fin au format ISO-8601, ex. 2026-08-10T15:00:00")
         end: String,
-        @P("Location of the event") location: String?,
-        @P("Recurrence rules, e.g. \"RRULE:FREQ=DAILY;INTERVAL=1\"")
+        @P("Lieu de l'événement") location: String?,
+        @P("Règle de récurrence, ex. \"RRULE:FREQ=DAILY;INTERVAL=1\"")
         recurrencePattern: String
     ): String {
         logger.info("Using createRecurrentEvent tool")
@@ -52,17 +52,17 @@ class CalendarTool(private val calendarService: CalendarService) : MyTool {
         """.trimIndent()
     }
 
-    @Tool("Update an existing event with optional recurrence pattern." +
-            " If a recurrence pattern is provided, the event will become a recurring event." +
-            " If null is provided, the existing recurrence will be removed.")
+    @Tool("Modifier un événement existant avec une règle de récurrence optionnelle." +
+            " Si une règle de récurrence est fournie, l'événement devient récurrent." +
+            " Si null est fourni, la récurrence existante est supprimée.")
     fun updateEventWithRecurrence(
-        @P("Event ID to update") eventId: String,
-        @P("New title (null to keep current)") newTitle: String?,
-        @P("New description (null to keep current)") newDescription: String?,
-        @P("New start date/time (null to keep current)") newStart: String?,
-        @P("New end date/time (null to keep current)") newEnd: String?,
-        @P("New location (null to keep current)") newLocation: String?,
-        @P("New recurrence pattern (null to remove recurrence, e.g. \"RRULE:FREQ=DAILY\")")
+        @P("ID de l'événement à modifier") eventId: String,
+        @P("Nouveau titre (null pour conserver l'actuel)") newTitle: String?,
+        @P("Nouvelle description (null pour conserver l'actuelle)") newDescription: String?,
+        @P("Nouvelle date/heure de début (null pour conserver l'actuelle)") newStart: String?,
+        @P("Nouvelle date/heure de fin (null pour conserver l'actuelle)") newEnd: String?,
+        @P("Nouveau lieu (null pour conserver l'actuel)") newLocation: String?,
+        @P("Nouvelle règle de récurrence (null pour supprimer la récurrence, ex. \"RRULE:FREQ=DAILY\")")
         recurrencePattern: String?
     ): String {
         logger.info("Using updateEventWithRecurrence tool")
@@ -96,11 +96,11 @@ class CalendarTool(private val calendarService: CalendarService) : MyTool {
         """.trimIndent()
     }
 
-    @Tool("Create a recurrence based on an existing event." +
-            " This creates a new recurrent event based on an existing one with the specified recurrence pattern.")
+    @Tool("Créer une récurrence à partir d'un événement existant." +
+            " Crée un nouvel événement récurrent basé sur un événement existant avec la règle de récurrence spécifiée.")
     fun createRecurrence(
-        @P("Event ID to create recurrence from") eventId: String,
-        @P("Recurrence rules, e.g. \"RRULE:FREQ=DAILY;INTERVAL=1\"")
+        @P("ID de l'événement source") eventId: String,
+        @P("Règle de récurrence, ex. \"RRULE:FREQ=DAILY;INTERVAL=1\"")
         recurrencePattern: String
     ): String {
         logger.info("Using createRecurrence tool")
@@ -118,25 +118,25 @@ class CalendarTool(private val calendarService: CalendarService) : MyTool {
         """.trimIndent()
     }
 
-    @Tool("Update an existing event in the user's Google Calendar." +
-            " The event is identified by a keyword from its title and its approximate date." +
-            " Use a single clear keyword (e.g. \"sprint\" not \"réunion sprint dev\")." +
-            " Only the provided fields will be modified, the others remain unchanged.")
+    @Tool("Modifier un événement existant dans le calendrier Google." +
+            " L'événement est identifié par un mot-clé de son titre et sa date approximative." +
+            " Utilisez un mot-clé clair et unique (ex. « sprint » plutôt que « réunion sprint dev »)." +
+            " Seuls les champs fournis sont modifiés, les autres restent inchangés.")
     fun modifyEvent(
-        @P("Keyword from the title of the event to modify (single clear word recommended)") title: String,
+        @P("Mot-clé du titre de l'événement à modifier (un seul mot recommandé)") title: String,
 
-        @P("Approximate date of the event in ISO-8601 format, e.g. 2026-08-10T14:00:00")
+        @P("Date approximative de l'événement au format ISO-8601, ex. 2026-08-10T14:00:00")
         date: String,
 
-        @P("New title for the event (null to keep current)") newTitle: String?,
+        @P("Nouveau titre de l'événement (null pour conserver l'actuel)") newTitle: String?,
 
-        @P("New description for the event (null to keep current)") newDescription: String?,
+        @P("Nouvelle description de l'événement (null pour conserver l'actuelle)") newDescription: String?,
 
-        @P("New start date and time in ISO-8601 format (null to keep current)") newStart: String?,
+        @P("Nouvelle date et heure de début au format ISO-8601 (null pour conserver l'actuelle)") newStart: String?,
 
-        @P("New end date and time in ISO-8601 format (null to keep current)") newEnd: String?,
+        @P("Nouvelle date et heure de fin au format ISO-8601 (null pour conserver l'actuelle)") newEnd: String?,
 
-        @P("New location for the event (null to keep current)") newLocation: String?
+        @P("Nouveau lieu de l'événement (null pour conserver l'actuel)") newLocation: String?
     ): String {
         logger.info("Using modifyEvent tool")
 
@@ -172,13 +172,13 @@ class CalendarTool(private val calendarService: CalendarService) : MyTool {
         """.trimIndent()
     }
 
-    @Tool("Delete a single event from the user's Google Calendar." +
-            " The event is identified by a keyword from its title and its approximate date." +
-            " Use a single clear keyword (e.g. \"sprint\" not \"réunion sprint dev\").")
+    @Tool("Supprimer un événement du calendrier Google." +
+            " L'événement est identifié par un mot-clé de son titre et sa date approximative." +
+            " Utilisez un mot-clé clair et unique (ex. « sprint » plutôt que « réunion sprint dev »).")
     fun deleteEvent(
-        @P("Keyword from the title of the event to delete (single clear word recommended)") title: String,
+        @P("Mot-clé du titre de l'événement à supprimer (un seul mot recommandé)") title: String,
 
-        @P("Approximate date of the event in ISO-8601 format, e.g. 2026-08-10T14:00:00")
+        @P("Date approximative de l'événement au format ISO-8601, ex. 2026-08-10T14:00:00")
         date: String
     ): String {
         logger.info("Using deleteEvent tool")
@@ -192,16 +192,16 @@ class CalendarTool(private val calendarService: CalendarService) : MyTool {
         return "Événement \"${event.summary}\" supprimé avec succès."
     }
 
-    @Tool("Delete multiple events from the user's Google Calendar." +
-            " Events can be filtered by a keyword from their title within a time range." +
-            " Use a single clear keyword (e.g. \"sprint\" not \"réunion sprint dev\")." +
-            " If no title is provided, all events in the time range will be deleted.")
+    @Tool("Supprimer plusieurs événements du calendrier Google." +
+            " Les événements peuvent être filtrés par un mot-clé du titre dans une plage horaire." +
+            " Utilisez un mot-clé clair et unique (ex. « sprint » plutôt que « réunion sprint dev »)." +
+            " Si aucun titre n'est fourni, tous les événements de la plage seront supprimés.")
     fun deleteEvents(
-        @P("Optional keyword to filter events by title (single clear word recommended). If null, all events in range are deleted.") title: String?,
+        @P("Mot-clé optionnel pour filtrer les événements par titre (un seul mot recommandé). Si null, tous les événements de la plage sont supprimés.") title: String?,
 
-        @P("Start of the time range in ISO-8601 format, e.g. 2026-08-10T00:00:00") start: String,
+        @P("Début de la plage horaire au format ISO-8601, ex. 2026-08-10T00:00:00") start: String,
 
-        @P("End of the time range in ISO-8601 format, e.g. 2026-08-10T23:59:59") end: String
+        @P("Fin de la plage horaire au format ISO-8601, ex. 2026-08-10T23:59:59") end: String
     ): String {
         logger.info("Using deleteEvents tool")
 
