@@ -15,11 +15,19 @@ class MyAgent(
     private val logger = logger()
 
     fun chat(memoryId: String, message: String): String {
+        logger.info("=== DEBUG RESOLVE ===")
+        logger.info("Message reçu: $message")
+
         val newCapabilities = agentCapabilityResolver.resolve(message)
+        logger.info("New capabilities résolues: ${newCapabilities.map { it.name }}")
+
         capabilityStore.add(memoryId, newCapabilities)
         val allCapabilities = capabilityStore.get(memoryId)
         capabilityStore.tick(memoryId)
-        logger.info("capacités actives : $allCapabilities")
+
+        logger.info("All capabilities actives après store: ${allCapabilities.map { it.name }}")
+        logger.info("=== FIN DEBUG RESOLVE ===")
+
         val generalAgent = agentBuilder.agent(allCapabilities)
         return generalAgent.chat(memoryId, message)
     }
