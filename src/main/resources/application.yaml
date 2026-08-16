@@ -5,9 +5,6 @@ spring:
 agent:
   capability:
     ttl: 3
-  plan:
-    max-steps: 10
-    timeout-per-step: 30000
 
 
 
