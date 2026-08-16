@@ -52,32 +52,95 @@ class YtbMp3Tool : MyTool {
 
     }
 
-    @Tool("Rechercher une URL YouTube à partir d'un titre ou d'une description de vidéo/musique")
+    @Tool("""
+Recherche réellement une vidéo sur YouTube à partir d'un titre, artiste,
+ou description. Le résultat provient directement de yt-dlp.
+
+IMPORTANT :
+- Ne fabrique jamais d'URL YouTube.
+- Ne devine jamais une URL.
+- Utilise cet outil lorsque tu dois trouver une vidéo YouTube à partir
+  d'un titre ou d'une description.
+- Si l'utilisateur fournit déjà une URL YouTube, n'utilise pas cet outil.
+""")
     fun searchYoutubeUrl(
-        @P("Titre ou description de la vidéo/musique à rechercher") query: String
+        @P("Titre, artiste ou description exacte de la vidéo/musique à rechercher")
+        query: String
     ): String {
+
         return try {
+
             val process = ProcessBuilder(
                 "/home/mathurin/.local/bin/yt-dlp",
+
+                // Recherche YouTube
                 "ytsearch1:$query",
-                "--print", "%(title)s|||%(url)s"
+
+                // Retourne uniquement les informations demandées
+                "--print",
+                "%(title)s|||%(webpage_url)s",
+
+                // Pas de téléchargement
+                "--skip-download",
+
+                // Évite certains messages inutiles
+                "--no-warnings"
             )
                 .redirectErrorStream(true)
                 .start()
 
-            val output = process.inputStream.bufferedReader().readText().trim()
+            val output = process.inputStream
+                .bufferedReader()
+                .readText()
+                .trim()
+
             val exitCode = process.waitFor()
 
-            if (exitCode == 0 && output.contains("|||")) {
-                val parts = output.split("|||", limit = 2)
-                val title = parts[0].trim()
-                val url = parts[1].trim()
-                "Titre trouvé : $title\nURL : $url"
-            } else {
-                "Aucun résultat trouvé pour la recherche : $query"
+            if (exitCode != 0 || output.isBlank()) {
+                return """
+                {
+                  "success": false,
+                  "query": "$query",
+                  "error": "Aucun résultat YouTube trouvé"
+                }
+            """.trimIndent()
             }
+
+            val parts = output.split("|||", limit = 2)
+
+            if (parts.size != 2) {
+                return """
+                {
+                  "success": false,
+                  "query": "$query",
+                  "error": "yt-dlp a retourné un résultat invalide",
+                  "raw": "$output"
+                }
+            """.trimIndent()
+            }
+
+            val title = parts[0].trim()
+            val url = parts[1].trim()
+
+            """
+        {
+          "success": true,
+          "query": "$query",
+          "title": "$title",
+          "url": "$url",
+          "source": "yt-dlp"
+        }
+        """.trimIndent()
+
         } catch (e: Exception) {
-            "Une erreur est survenue lors de la recherche YouTube : ${e.message}"
+
+            """
+        {
+          "success": false,
+          "query": "$query",
+          "error": "${e.message ?: "Erreur inconnue"}"
+        }
+        """.trimIndent()
         }
     }
 
