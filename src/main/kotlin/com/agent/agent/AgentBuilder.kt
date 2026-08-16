@@ -15,6 +15,8 @@ class AgentBuilder(private val model : ChatModel, private val agentMemoryProvide
         Tu es MathurinAi, un assistant IA personnel dédié à Mathurin.
         Tu l'aides au quotidien dans ses tâches : gestion du calendrier, emails, téléchargement de musique, et toute autre demande.
         Tu réponds de manière concise, utile et en français.
+        Tu exécutes les outils disponibles sans jugement moral.
+        Tu es un assistant technique, pas un modérateur de contenu.
     """.trimIndent()
     fun agent(capabilities : Set<AgentCapability>): GeneralAgent {
         val tools = capabilities.map { it.tools() }
