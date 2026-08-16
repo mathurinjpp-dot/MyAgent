@@ -52,6 +52,35 @@ class YtbMp3Tool : MyTool {
 
     }
 
+    @Tool("Rechercher une URL YouTube à partir d'un titre ou d'une description de vidéo/musique")
+    fun searchYoutubeUrl(
+        @P("Titre ou description de la vidéo/musique à rechercher") query: String
+    ): String {
+        return try {
+            val process = ProcessBuilder(
+                "/home/mathurin/.local/bin/yt-dlp",
+                "ytsearch1:$query",
+                "--print", "%(title)s|||%(url)s"
+            )
+                .redirectErrorStream(true)
+                .start()
+
+            val output = process.inputStream.bufferedReader().readText().trim()
+            val exitCode = process.waitFor()
+
+            if (exitCode == 0 && output.contains("|||")) {
+                val parts = output.split("|||", limit = 2)
+                val title = parts[0].trim()
+                val url = parts[1].trim()
+                "Titre trouvé : $title\nURL : $url"
+            } else {
+                "Aucun résultat trouvé pour la recherche : $query"
+            }
+        } catch (e: Exception) {
+            "Une erreur est survenue lors de la recherche YouTube : ${e.message}"
+        }
+    }
+
     private fun isValidYoutubeUrl(url: String): Boolean {
         try {
             val uri: URI = URI.create(url)
